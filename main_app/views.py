@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Count
 from .models import Tag
-from .serializers import EntrySerializer
+from django.db.models import Count
 # Create your views here.
 
 #Get Request
@@ -23,24 +23,29 @@ class EntryListView(APIView):
     
 # POST request 
 class EntryCreateView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = EntrySerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # PUT request 
 class EntryUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
     def put(self, request, pk):
         try:
             entry = JournalEntry.objects.get(pk=pk)
+            print(entry)
+            print(request.data)
         except JournalEntry.DoesNotExist:
             return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = EntrySerializer(entry, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -79,6 +84,51 @@ class UserLoginView(APIView):
         
         return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
+class JournalEntryListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        entries = JournalEntry.objects.filter(user=request.user)
+        serializer = EntrySerializer(entries, many=True)
+        return Response(serializer.data)
+
+class JournalEntryDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            entry = JournalEntry.objects.get(pk=pk, user=request.user)
+            serializer = EntrySerializer(entry)
+            return Response(serializer.data)
+        except JournalEntry.DoesNotExist:
+            return Response({"detail": "Entry not found."}, status=404)
+
+class JournalEntryEditView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, pk):
+        try:
+            entry = JournalEntry.objects.get(pk=pk, user=request.user)
+            serializer = EntrySerializer(entry, data=request.data, partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=400)
+        except JournalEntry.DoesNotExist:
+            return Response({"detail": "Entry not found."}, status=404)
+
+
+class JournalEntryDeleteView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, pk):
+        try:
+            entry = JournalEntry.objects.get(pk=pk, user=request.user)
+            entry.delete()
+            return Response({"detail": "Entry deleted successfully."}, status=204)
+        except JournalEntry.DoesNotExist:
+            return Response({"detail": "Entry not found."}, status=404)
 
 @api_view(['GET'])
 def get_entries_count(request):
@@ -96,7 +146,7 @@ def get_tags(request):
 @api_view(['GET'])
 def get_top_tags(request):
     if request.user.is_authenticated:
-        top_tags = Tag.objects.annotate(num_entries=Count('entries')).order_by('-num_entries')[:3]
+        top_tags = Tag.objects.annotate(num_entries=Count('journal_entries')).order_by('-num_entries')[:3]
         tags = [{'id': tag.id, 'name': tag.name, 'count': tag.num_entries} for tag in top_tags]
         return Response(tags)
     return Response({'detail': 'Authentication credentials were not provided.'}, status=401)
@@ -104,8 +154,8 @@ def get_top_tags(request):
 @api_view(['GET'])
 def get_recent_entries(request):
     if request.user.is_authenticated:
-        recent_entries = JournalEntry.objects.filter(user=request.user).order_by('-date')[:3]
-        entries = [{'id': entry.id, 'title': entry.title, 'date': entry.date, 'entry': entry.entry} for entry in recent_entries]
+        recent_entries = JournalEntry.objects.filter(user=request.user).order_by('-created_at')[:3]
+        entries = [{'id': entry.user.username, 'title': entry.title, 'created_at': entry.created_at, 'entry': entry.content} for entry in recent_entries]
         return Response(entries)
     return Response({'detail': 'Authentication credentials were not provided.'}, status=401)
 
@@ -118,3 +168,5 @@ def create_journal_entry(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
     return Response({'detail': 'Authentication credentials were not provided.'}, status=401)
+
+

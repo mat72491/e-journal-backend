@@ -23,7 +23,8 @@ from main_app.views import get_tags
 urlpatterns = [
     path('entries/', views.EntryListView.as_view(), name='entry-list'),
     path('entries/create/', views.EntryCreateView.as_view(), name='entry-create'),
-    path('entries/<int:pk>/update/', views.EntryUpdateView.as_view(), name='entry-update'),  
+    path('entries/<int:pk>/', views.JournalEntryDetailView.as_view(), name='entry-detail'),
+    path('entries/<int:pk>/edit/', views.EntryUpdateView.as_view(), name='entry-edit'),  
     path('entries/<int:pk>/delete/', views.EntryDeleteView.as_view(), name='entry-delete'),
     path('auth/register/', views.UserRegisterView.as_view(), name='user-register'),
     path('auth/login/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
