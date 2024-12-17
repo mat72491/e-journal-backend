@@ -55,7 +55,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # React app URL
+    "https://calm-blini-512dd5.netlify.app",  # React app URL
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
