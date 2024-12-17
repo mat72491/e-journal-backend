@@ -1,5 +1,10 @@
 e-Journal App ReadMe
 
+https://trello.com/b/V02sYHsg/e-journal
+
+![Screenshot 2024-12-17 at 10 05 52 AM](https://github.com/user-attachments/assets/24af100c-97d2-4156-8007-e7dbf9889506)
+
+
 Overview
 
 The e-Journal app will allow users to create, view, edit, and delete journal entries. Users can write personal notes, add tags to entries for easy categorization, and track their journaling history. The app will store the journal entries in a database, offering the ability to search and filter by tags, date, and content.
