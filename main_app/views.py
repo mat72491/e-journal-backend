@@ -63,6 +63,7 @@ class EntryDeleteView(APIView):
 # User Registration View
 class UserRegisterView(APIView):
     def post(self, request):
+        print(request.data)
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
