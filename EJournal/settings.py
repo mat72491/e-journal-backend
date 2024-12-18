@@ -41,7 +41,7 @@ CORS_ALLOW_HEADERS = [
    "*"
 ]
 CORS_ALLOWED_ORIGINS = [
-    "https://calm-blini-512dd5.netlify.app/",  # React app URL
+    "https://calm-blini-512dd5.netlify.app",  # React app URL
 ]
 # Application definition
 
@@ -129,7 +129,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'EJournal',
+            'NAME': 'journalentries',
             # The value of 'NAME' should match the value of 'NAME' you replaced.
         }
     }
