@@ -19,10 +19,6 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 CORS_ALLOW_CREDENTIALS = True  
-CORS_ALLOW_ALL_ORIGINS = False  
-CORS_ALLOWED_ORIGINS = [
-    "https://calm-blini-512dd5.netlify.app",  
-]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -75,7 +71,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://calm-blini-512dd5.netlify.app",  # React app URL
+    "https://calm-blini-512dd5.netlify.app/",  # React app URL
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
