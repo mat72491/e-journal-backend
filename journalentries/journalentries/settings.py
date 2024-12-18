@@ -16,6 +16,12 @@ import os
 
 load_dotenv()
 import dj_database_url
+CORS_ALLOW_CREDENTIALS = True  
+CORS_ALLOW_ALL_ORIGINS = False  
+CORS_ALLOWED_ORIGINS = [
+    "https://calm-blini-512dd5.netlify.app",  
+]
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +39,24 @@ if not 'ON_HEROKU' in os.environ:
 
 ALLOWED_HOSTS = ["*"]
 
+ALLOWED_HOSTS = []
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "PATCH",
+    "OPTIONS",
+]
 
+CORS_ALLOW_HEADERS = [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+    "X-CSRFToken",
+]
 # Application definition
 
 INSTALLED_APPS = [
