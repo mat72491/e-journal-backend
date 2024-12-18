@@ -18,7 +18,11 @@ load_dotenv()
 import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+CORS_ALLOW_CREDENTIALS = True  
+CORS_ALLOW_ALL_ORIGINS = False  
+CORS_ALLOWED_ORIGINS = [
+    "https://calm-blini-512dd5.netlify.app",  
+]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -30,7 +34,23 @@ SECRET_KEY = 'django-insecure-^b5bq=aqynw$c(uv$m!y(%2#l47o)+j&&l5gvip+8-c=x$xy#x
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "PATCH",
+    "OPTIONS",
+]
 
+CORS_ALLOW_HEADERS = [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+    "X-CSRFToken",
+]
 
 # Application definition
 
