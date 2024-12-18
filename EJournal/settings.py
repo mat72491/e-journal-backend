@@ -39,14 +39,11 @@ CORS_ALLOW_METHODS = [
 ]
 
 CORS_ALLOW_HEADERS = [
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "Accept",
-    "Origin",
-    "X-CSRFToken",
+   "*"
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "https://calm-blini-512dd5.netlify.app/",  # React app URL
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,9 +66,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "https://calm-blini-512dd5.netlify.app/",  # React app URL
-]
+
 
 CORS_ALLOW_CREDENTIALS = True  
 
