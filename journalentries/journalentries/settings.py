@@ -16,7 +16,7 @@ import os
 
 load_dotenv()
 import dj_database_url
-CORS_ALLOW_CREDENTIALS = True  
+
 
 
 
@@ -69,6 +69,8 @@ INSTALLED_APPS = [
 CORS_ALLOWED_ORIGINS = [
     "https://calm-blini-512dd5.netlify.app/",  # React app URL
 ]
+
+CORS_ALLOW_CREDENTIALS = True  
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
